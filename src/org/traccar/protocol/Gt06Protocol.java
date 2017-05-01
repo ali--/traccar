@@ -37,6 +37,8 @@ public class Gt06Protocol extends BaseProtocol {
         serverList.add(new TrackerServer(new ServerBootstrap(), getName()) {
             @Override
             protected void addSpecificHandlers(ChannelPipeline pipeline) {
+                pipeline.addLast("objectForwarder", new Gt06ProtocolForwarder(
+                    Gt06Protocol.this));
                 pipeline.addLast("frameDecoder", new Gt06FrameDecoder());
                 pipeline.addLast("objectEncoder", new Gt06ProtocolEncoder());
                 pipeline.addLast("objectDecoder", new Gt06ProtocolDecoder(Gt06Protocol.this));
